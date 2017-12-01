@@ -1,0 +1,35 @@
+/*
+ * Use a libraries map to define the dependency artifacts
+ * It similar to the maven <dependencyManagement>
+ */
+ext {
+	springFrameworkVersion 					= '4.0.5.RELEASE'
+	springDataJpaVersion 					= '1.6.0.RELEASE'
+
+	thriftVersion 					= '0.10.0'
+	nettyVersion 					= '4.1.16.Final'
+	nettySslVersion                 = '2.0.6.Final'
+	guavaVersion                    = '19.0'
+	fastjsonVersion                 = '1.2.41'
+	commonsLang3Version              = '3.0'
+	commonsIoVersion                = '2.4'
+    libraries = [
+			//spring base
+			spring_context_support:    	"org.springframework:spring-context-support:${springFrameworkVersion}",
+			//spring web
+			spring_webmvc:			   	"org.springframework:spring-webmvc:${springFrameworkVersion}",
+			//spring jdbc
+			spring_jdbc:			   	"org.springframework:spring-jdbc:${springFrameworkVersion}",
+			//spring_data_jpa
+			spring_data_jpa:		   	"org.springframework.data:spring-data-jpa:${springDataJpaVersion}",
+
+			thrift :    	 "org.apache.thrift:libthrift:${thriftVersion}",
+			netty  :    	 "io.netty:netty-all:${nettyVersion}",
+			nettySsl :      "io.netty:netty-tcnative-boringssl-static:${nettySslVersion}",
+			guava :         "com.google.guava:guava:${guavaVersion}",
+			fastjson :      "com.alibaba:fastjson:${fastjsonVersion}",
+			commonsLang3 :  "org.apache.commons:commons-lang3:${commonsLang3Version}",
+			commonsIo :    "commons-io:commons-io:${commonsIoVersion}"
+	]
+
+}

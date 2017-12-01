@@ -1,0 +1,6 @@
+rootProject.name = 'tsp'
+include 'tsp-basic'
+include 'tsp-server'
+include 'tsp-spring'
+include 'tsp-container'
+

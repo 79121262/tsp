@@ -1,0 +1,77 @@
+apply from: "./libraries.gradle"
+
+group 'com.tc'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+buildscript {
+    repositories {
+        maven { url mavenCentral }
+    }
+    dependencies {
+        classpath("com.bmuschko:gradle-cargo-plugin:2.0.3")
+        classpath("org.akhikhl.gretty:gretty:1.2.4")
+        classpath("com.moowork.gradle:gradle-grunt-plugin:0.9")
+    }
+}
+
+//为所有项目提供共同所需依赖包
+allprojects { project ->
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+
+    repositories {
+        maven { url mavenCentral }
+    }
+}
+
+project("tsp-container") {
+    description = "tsp-container java application"
+    apply from: "$rootDir/gradle/tsp-container.gradle"
+    dependencies {
+        compile(project(":tsp-server"))
+        compile(project(":tsp-spring"))
+        compile(libraries.spring_context_support)
+        testCompile group: 'junit', name: 'junit', version: '4.11'
+    }
+}
+
+
+project("tsp-basic") {
+    description = "tsp-basic java application"
+    apply from: "$rootDir/gradle/tsp-basic.gradle"
+    dependencies {
+        compile(libraries.thrift)
+        compile(libraries.netty)
+        compile(libraries.nettySsl)
+        compile(libraries.guava)
+        compile(libraries.fastjson)
+        compile(libraries.commonsLang3)
+        compile(libraries.commonsIo)
+    }
+}
+
+project("tsp-server") {
+    description = "tsp-server java application"
+    apply from: "$rootDir/gradle/tsp-server.gradle"
+    dependencies {
+        compile(project(":tsp-basic"))
+        compile(libraries.spring_context_support)
+    }
+}
+
+project("tsp-spring") {
+    description = "tsp-spring java application"
+    apply from: "$rootDir/gradle/tsp-spring.gradle"
+    dependencies {
+        compile(project(":tsp-basic"))
+        compile(libraries.spring_context_support)
+        compile(libraries.commonsLang3)
+    }
+}
+
+
+
