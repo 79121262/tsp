@@ -73,5 +73,14 @@ project("tsp-spring") {
     }
 }
 
+project("tsp-test") {
+    description = "tsp-spring java application"
+    apply from: "$rootDir/gradle/tsp-test.gradle"
+    dependencies {
+        compile(project(":tsp-container"))
+        compile group: 'junit', name: 'junit', version: '4.11'
+    }
+}
+
 
 

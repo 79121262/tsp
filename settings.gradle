@@ -3,4 +3,5 @@ include 'tsp-basic'
 include 'tsp-server'
 include 'tsp-spring'
 include 'tsp-container'
+include 'tsp-test'
 

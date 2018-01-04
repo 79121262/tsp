@@ -4,6 +4,7 @@ import com.tc.tsp.core.base.TBaseWrapper;
 import com.tc.tsp.core.context.*;
 import com.tc.tsp.core.entity.Header;
 import com.tc.tsp.core.entity.HeaderHelper;
+import com.tc.tsp.core.support.IPUtils;
 import com.tc.tsp.core.support.TFramedByteBufTransport;
 
 import io.netty.buffer.ByteBuf;
@@ -362,12 +363,12 @@ public class TspProtocol extends TProtocol {
 
         // either a request for Container or a response for Consumer
         if (requestFlag) { // 读请求包
-            HostAndPort callerHostAndPort = null;
-            //HostAndPort remoteHostAndPort = IPUtils.getHostAndPort(transactionContext.getRemoteAddress());
+            IPUtils.HostAndPort callerHostAndPort = null;
+            IPUtils.HostAndPort remoteHostAndPort = IPUtils.getHostAndPort(transactionContext.getRemoteAddress());
             if (header.getForwardedFor() != null) {
-                //callerHostAndPort = IPUtils.getHostAndPort(header.getForwardedFor());
+                callerHostAndPort = IPUtils.getHostAndPort(header.getForwardedFor());
             } else {
-                //callerHostAndPort = remoteHostAndPort;
+                callerHostAndPort = remoteHostAndPort;
             }
 
             InetAddress callerIPAddr = getCallerIP(callerHostAndPort.hostAddress);
@@ -440,7 +441,7 @@ public class TspProtocol extends TProtocol {
     private static InetAddress getCallerIP(String callerIP) {
         InetAddress callerIPAddr = null;
         try {
-            //callerIPAddr = callerIP != null ? IPUtils.getAddresses(callerIP) : IPUtils.localIp();
+            callerIPAddr = callerIP != null ? IPUtils.getAddresses(callerIP) : IPUtils.localIp();
         } catch (Exception e) {
             logger.warn("callerIP format is worng：" + callerIP + ", use local ip instead", e);
            // callerIPAddr = IPUtils.localIp();
@@ -624,13 +625,4 @@ public class TspProtocol extends TProtocol {
         // ospJsonContentProtocol.reset();
     }
 
-    public static class HostAndPort {
-        public String hostAddress;
-        public int port = -1;
-
-        @Override
-        public String toString() {
-            return hostAddress + ":" + port;
-        }
-    }
 }
